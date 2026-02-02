@@ -5,7 +5,8 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Underline from '@tiptap/extension-underline';
 import { all, createLowlight } from 'lowlight';
-import { FaImage, FaCode, FaBold, FaItalic, FaUnderline, FaThumbtack } from 'react-icons/fa';
+import { FaImage, FaCode, FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
+import { MdPushPin, MdOutlinePushPin } from 'react-icons/md';
 import axios from 'axios';
 
 const lowlight = createLowlight(all);
@@ -63,7 +64,7 @@ const EditModal: React.FC<EditModalProps> = ({ note, onClose, onSave }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" onClick={onClose}>
             <div 
-                className="bg-keep-bg w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl overflow-hidden flex flex-col border border-keep-border"
+                className="bg-keep-card w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl overflow-hidden flex flex-col border border-keep-border"
                 onClick={(e) => e.stopPropagation()}
             >
                  <div className="p-4 overflow-y-auto flex-1 custom-scrollbar">
@@ -73,20 +74,21 @@ const EditModal: React.FC<EditModalProps> = ({ note, onClose, onSave }) => {
                             placeholder="Title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            className="w-full bg-transparent text-keep-text text-xl font-bold placeholder-keep-textSecondary outline-none"
+                            className="w-full bg-transparent text-keep-text text-xl font-semibold placeholder-keep-textSecondary outline-none"
                         />
                         <button 
                             onClick={() => setIsPinned(!isPinned)}
                             className={`p-2 rounded-full hover:bg-keep-hover ${isPinned ? 'text-keep-text' : 'text-keep-textSecondary'}`}
+                            title={isPinned ? "Unpin note" : "Pin note"}
                         >
-                            <FaThumbtack />
+                            {isPinned ? <MdPushPin size={24} /> : <MdOutlinePushPin size={24} />}
                         </button>
                     </div>
-                     <EditorContent editor={editor} className="min-h-[200px] text-keep-text" />
+                     <EditorContent editor={editor} className="min-h-[200px] text-keep-text text-[0.9375rem] leading-relaxed" />
                  </div>
 
                  {/* Toolbar */}
-                 <div className="bg-keep-bg p-2 border-t border-keep-border flex justify-between items-center">
+                 <div className="bg-keep-card p-2 border-t border-keep-border flex justify-between items-center">
                       <div className="flex items-center gap-1 text-keep-textSecondary">
                          <button 
                             onClick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
@@ -116,39 +118,39 @@ const EditModal: React.FC<EditModalProps> = ({ note, onClose, onSave }) => {
                             onClick={() => editor?.chain().focus().toggleBold().run()}
                             className={`p-2 rounded hover:bg-keep-hover ${editor?.isActive('bold') ? 'text-keep-text bg-keep-hover' : ''}`}
                         >
-                            <FaBold size={12} />
+                            <FaBold size={14} />
                         </button>
                         <button 
                             onClick={() => editor?.chain().focus().toggleItalic().run()}
                             className={`p-2 rounded hover:bg-keep-hover ${editor?.isActive('italic') ? 'text-keep-text bg-keep-hover' : ''}`}
                         >
-                            <FaItalic size={12} />
+                            <FaItalic size={14} />
                         </button>
                          <button 
                             onClick={() => editor?.chain().focus().toggleUnderline().run()}
                             className={`p-2 rounded hover:bg-keep-hover ${editor?.isActive('underline') ? 'text-keep-text bg-keep-hover' : ''}`}
                         >
-                            <FaUnderline size={12} />
+                            <FaUnderline size={14} />
                         </button>
                         <button 
                             onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
                             className={`p-2 rounded hover:bg-keep-hover ${editor?.isActive('codeBlock') ? 'text-keep-text bg-keep-hover' : ''}`}
                             title="Code Block"
                         >
-                            <FaCode size={14} />
+                            <FaCode size={16} />
                         </button>
 
                          <div className="w-px h-4 bg-gray-600 mx-1"></div>
                          
                          <label className="p-2 rounded hover:bg-keep-hover cursor-pointer">
-                            <FaImage size={14} />
+                            <FaImage size={16} />
                             <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
                          </label>
                     </div>
 
                     <button 
                         onClick={handleSave}
-                        className="px-6 py-2 rounded text-keep-text font-medium hover:bg-keep-hover"
+                        className="px-6 py-2 rounded text-keep-text font-medium hover:bg-keep-hover transition-colors"
                     >
                         Close
                     </button>

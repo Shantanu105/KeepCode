@@ -1,23 +1,56 @@
 @import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 
 @theme {
+  --color-keep-bg: var(--color-keep-bg);
+  --color-keep-card: var(--color-keep-card);
+  --color-keep-border: var(--color-keep-border);
+  --color-keep-text: var(--color-keep-text);
+  --color-keep-textSecondary: var(--color-keep-textSecondary);
+  --color-keep-hover: var(--color-keep-hover);
+  --color-keep-yellow: #fbbc04;
+}
+
+:root {
+  /* Dark Mode (Default) */
   --color-keep-bg: #202124;
-  --color-keep-card: #2d2e30;
+  --color-keep-card: #202124;
   --color-keep-border: #5f6368;
   --color-keep-text: #e8eaed;
   --color-keep-textSecondary: #9aa0a6;
-  --color-keep-hover: #303134;
+  --color-keep-hover: #28292c;
+  
+  /* Code Block Background */
+  --code-bg: #1e1e1e;
+  --code-border: #333;
+}
+
+:root.light {
+  /* Light Mode - Google Keep Exact Colors */
+  --color-keep-bg: #ffffff;
+  --color-keep-card: #ffffff;
+  --color-keep-border: #e0e0e0;
+  --color-keep-text: #202124;
+  --color-keep-textSecondary: #5f6368;
+  --color-keep-hover: #f1f3f4;
+  
+  --code-bg: #f6f8fa;
+  --code-border: #e1e4e8;
 }
 
 body {
   background-color: var(--color-keep-bg);
   color: var(--color-keep-text);
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Scrollbar styling for a cleaner look */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -35,7 +68,7 @@ body {
 /* Tiptap Editor Styles */
 .ProseMirror {
   outline: none;
-  min-height: 100px; /* Minimum height for the body */
+  min-height: 40px; 
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
@@ -44,57 +77,66 @@ body {
   float: left;
   height: 0;
   pointer-events: none;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-/* Syntax Highlighting overrides for lowlight/highlight.js */
+/* Note Card specific styles */
+.note-card {
+    border: 1px solid var(--color-keep-border);
+    border-radius: 8px;
+    background-color: var(--color-keep-card);
+    transition: all 0.2s ease-in-out;
+}
+
+.note-card:hover {
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
+}
+
+/* Vibrant VS Code Style Syntax Highlighting */
 pre {
-  background: #0d1117;
+  background: var(--code-bg);
   border-radius: 0.5rem;
-  color: #c9d1d9;
-  font-family: 'JetBrains Mono', monospace;
+  color: #d4d4d4; /* Default dark text */
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: 1px solid var(--code-border);
+  overflow-x: auto;
+}
+
+/* Light Mode Code Overrides */
+:root.light pre {
+    color: #24292e;
 }
 
 code {
   background: none;
   color: inherit;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   padding: 0;
 }
 
-.hljs-comment,
-.hljs-quote {
-  color: #8b949e;
-  font-style: italic;
-}
+/* Vibrant Highlighting Token Colors */
+.hljs-comment, .hljs-quote { color: #6a9955; font-style: italic; } /* Green comment */
+.hljs-doctag, .hljs-keyword, .hljs-formula { color: #c586c0; } /* Purple keyword */
+.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #569cd6; } /* Blue */
+.hljs-literal { color: #569cd6; }
+.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: #ce9178; } /* Orange string */
+.hljs-class .hljs-title, .hljs-type { color: #4ec9b0; } /* Teal type */
+.hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #4fc1ff; } /* Light Blue */
+.hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #b5cea8; } /* Light Green */
+.hljs-attribute { color: #9cdcfe; }
+.hljs-function { color: #dcdcaa; } /* Yellow function */
 
-.hljs-doctag,
-.hljs-keyword,
-.hljs-formula {
-  color: #ff7b72;
-}
-
-.hljs-section,
-.hljs-name,
-.hljs-selector-tag,
-.hljs-deletion,
-.hljs-subst {
-  color: #ff7b72;
-}
-
-.hljs-literal {
-  color: #79c0ff;
-}
-
-.hljs-string,
-.hljs-regexp,
-.hljs-addition,
-.hljs-attribute,
-.hljs-meta .hljs-string {
-  color: #a5d6ff;
-}
-
-.hljs-class .hljs-title,
-.hljs-type {
-  color: #d2a8ff;
+/* Adjusting for Light Mode (If needed to ensure contrast, but VS Code colors usually work ok on dark bg)
+   If light mode is active, we might want a light theme for code, but often devs prefer dark code blocks even in light apps.
+   Let's keep the dark code block aesthetic for now as it "pops" more, or invert if strictly requested.
+   User asked for "VS Code" style which is typically associated with Dark+.
+   I will keep the code block DARK even in LIGHT mode for that high contrast pop.
+*/
+:root.light pre {
+    background: #1e1e1e; /* Force dark background for code blocks even in light mode */
+    color: #d4d4d4;
+    border-color: #333;
 }

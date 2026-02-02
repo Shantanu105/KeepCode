@@ -1,46 +1,62 @@
 import React from 'react';
-import { FaBars, FaSearch, FaRedo } from 'react-icons/fa';
+import { FaBars, FaSearch, FaRedo, FaMoon, FaSun } from 'react-icons/fa';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
   toggleSidebar: () => void;
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSearch, toggleSidebar }) => {
+const Header: React.FC<HeaderProps> = ({ onSearch, toggleSidebar, theme, toggleTheme }) => {
   return (
-    <header className="h-16 fixed top-0 left-0 right-0 bg-keep-bg border-b border-[#5f6368] flex items-center px-4 z-50">
-      <div className="flex items-center w-64">
-        <button onClick={toggleSidebar} className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary mr-2">
-          <FaBars />
+    <header className="h-16 fixed top-0 left-0 right-0 bg-keep-bg border-b border-keep-border flex items-center px-4 z-50 shadow-sm transition-colors duration-300">
+      <div className="flex items-center w-72">
+        <button onClick={toggleSidebar} className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary mr-2 transition-colors">
+          <FaBars size={20} />
         </button>
-        <div className="flex items-center">
-            {/* Simple Logo Placeholder */}
-            <div className="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center font-bold text-keep-bg mr-2">
+        <div className="flex items-center cursor-pointer">
+            {/* Logo */}
+            <div className="w-10 h-10 bg-keep-yellow rounded-lg flex items-center justify-center font-bold text-[#202124] mr-2 shadow-sm text-xl">
                 K
             </div>
-            <span className="text-xl text-keep-text font-medium">KeepCode</span>
+            <span className="text-xl text-keep-text font-medium tracking-tight">KeepCode</span>
         </div>
       </div>
 
       <div className="flex-1 max-w-3xl mx-auto">
-        <div className="bg-[#525355] rounded-lg flex items-center px-4 py-2 focus-within:bg-white focus-within:text-black transition-colors group">
-            <button className="text-keep-textSecondary group-focus-within:text-black mr-4">
-                <FaSearch />
+        <div className="bg-[#525355] bg-opacity-20 rounded-lg flex items-center px-4 py-3 focus-within:bg-white focus-within:shadow-md transition-all duration-200 group">
+            <button className="text-keep-textSecondary group-focus-within:text-gray-600 mr-4">
+                <FaSearch size={18} />
             </button>
             <input 
                 type="text" 
                 placeholder="Search" 
-                className="bg-transparent border-none outline-none w-full text-keep-text placeholder-keep-textSecondary group-focus-within:text-black"
+                className="bg-transparent border-none outline-none w-full text-keep-text placeholder-keep-textSecondary group-focus-within:text-black font-medium text-base"
                 onChange={(e) => onSearch(e.target.value)}
             />
         </div>
       </div>
 
-      <div className="w-64 flex justify-end items-center">
-          <button className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary" onClick={() => window.location.reload()}>
-            <FaRedo />
+      <div className="w-72 flex justify-end items-center pr-2 gap-2">
+          {/* Theme Toggle */}
+          <button 
+             onClick={toggleTheme}
+             className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary transition-colors"
+             title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+              {theme === 'dark' ? <FaSun size={18} /> : <FaMoon size={18} />}
           </button>
-          <div className="ml-4 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold">
+
+          <button 
+            className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary mr-2 transition-colors" 
+            onClick={() => window.location.reload()}
+            title="Refresh"
+          >
+            <FaRedo size={16} />
+          </button>
+          
+          <div className="ml-2 w-9 h-9 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-inner ring-2 ring-keep-bg cursor-pointer hover:ring-gray-500">
              G
           </div>
       </div>

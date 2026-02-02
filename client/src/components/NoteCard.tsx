@@ -5,7 +5,8 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
 import Underline from '@tiptap/extension-underline';
 import { all, createLowlight } from 'lowlight';
-import { FaThumbtack, FaTrash, FaArchive, FaTrashRestore } from 'react-icons/fa';
+import { FaTrash, FaArchive, FaTrashRestore } from 'react-icons/fa';
+import { MdPushPin, MdOutlinePushPin } from 'react-icons/md';
 
 const lowlight = createLowlight(all);
 
@@ -13,7 +14,7 @@ interface NoteCardProps {
     note: any;
     onUpdate: (id: string, updates: any) => void;
     onDelete: (id: string) => void;
-    onEdit: (note: any) => void; // Function to open modal for editing
+    onEdit: (note: any) => void;
 }
 
 const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onEdit }) => {
@@ -25,15 +26,14 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onEdit })
             Image,
         ],
         content: note.content,
-        editable: false, // Read-only
+        editable: false, 
         editorProps: {
              attributes: {
-                class: 'max-h-[300px] overflow-hidden mask-linear-gradient', // Clamp height for preview
+                class: 'max-h-[300px] overflow-hidden mask-linear-gradient', 
              }
         }
     });
     
-    // Update content if note changes (e.g. after edit)
     useEffect(() => {
         if (editor && note.content) {
             editor.commands.setContent(note.content);
@@ -42,78 +42,81 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onEdit })
 
 
     return (
-        <div className="group relative bg-keep-card border border-keep-border rounded-lg hover:shadow-md transition-shadow mb-4 break-inside-avoid overflow-hidden flex flex-col">
+        <div className="note-card group relative mb-4 break-inside-avoid overflow-hidden flex flex-col">
             <div 
                 className="p-4 cursor-default" 
-                onClick={() => onEdit(note)} // Click card to edit
+                onClick={() => onEdit(note)} 
             >
                 {note.title && (
-                    <div className="text-keep-text font-bold text-lg mb-2 flex justify-between">
-                        <span>{note.title}</span>
-                         {note.isPinned && <FaThumbtack className="text-keep-text text-sm" />}
+                    <div className="text-keep-text font-medium text-lg mb-3 flex justify-between leading-snug">
+                        <span className="font-semibold tracking-tight">{note.title}</span>
                     </div>
                 )}
                 
-                <EditorContent editor={editor} className="text-keep-text text-sm pointer-events-none" />
+                <EditorContent editor={editor} className="text-keep-text text-[0.9375rem] leading-relaxed pointer-events-none" />
             </div>
 
             {/* Hover Actions */}
             <div className="opacity-0 group-hover:opacity-100 transition-opacity flex justify-between items-center px-2 pb-2 mt-auto">
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                      {!note.isTrashed && (
                         <button 
                             onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isArchived: !note.isArchived }); }}
-                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary"
+                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary hover:text-keep-text transition-colors"
                             title={note.isArchived ? "Unarchive" : "Archive"}
                         >
-                            <FaArchive size={14} />
+                            <FaArchive size={16} />
                         </button>
                     )}
                     
                     {note.isTrashed ? (
                          <button 
                             onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isTrashed: false }); }}
-                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary"
+                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary hover:text-keep-text transition-colors"
                             title="Restore"
                         >
-                            <FaTrashRestore size={14} />
+                            <FaTrashRestore size={16} />
                         </button>
                     ) : (
                          <button 
                             onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isTrashed: true }); }}
-                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary"
+                            className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary hover:text-keep-text transition-colors"
                             title="Delete"
                         >
-                            <FaTrash size={14} />
+                            <FaTrash size={16} />
                         </button>
                     )}
 
                     {note.isTrashed && (
                         <button 
                              onClick={(e) => { e.stopPropagation(); onDelete(note._id); }}
-                             className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary hover:text-red-500"
+                             className="p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary hover:text-red-500 transition-colors"
                              title="Delete Permanently"
                         >
-                            <FaTrash size={14} />
+                            <FaTrash size={16} />
                         </button>
                     )}
                 </div>
             </div>
-             {/* Pin Button (Hover only for unpinned, always visible if pinned handled in title but let's add hover action too) */}
-            {!note.isPinned && !note.isTrashed && (
-                <button 
-                    onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isPinned: true }); }}
-                    className="absolute top-2 right-2 p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary opacity-0 group-hover:opacity-100 transition-opacity bg-keep-card"
-                >
-                    <FaThumbtack />
-                </button>
-            )}
+
+             {/* Pin Button Logic */}
              {note.isPinned && !note.isTrashed && (
                 <button 
                     onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isPinned: false }); }}
-                    className="absolute top-2 right-2 p-2 rounded-full hover:bg-keep-hover text-keep-text bg-keep-card"
+                    className="absolute top-3 right-3 p-2 rounded-full hover:bg-keep-hover text-keep-text transition-colors"
+                    title="Unpin note"
                 >
-                     <FaThumbtack />
+                     <MdPushPin size={22} />
+                </button>
+            )}
+
+            {!note.isPinned && !note.isTrashed && (
+                <button 
+                    onClick={(e) => { e.stopPropagation(); onUpdate(note._id, { isPinned: true }); }}
+                    className="absolute top-3 right-3 p-2 rounded-full hover:bg-keep-hover text-keep-textSecondary opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Pin note"
+                >
+                    <MdOutlinePushPin size={22} />
                 </button>
             )}
         </div>
