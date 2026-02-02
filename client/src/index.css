@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --color-keep-bg: #202124;
+  --color-keep-card: #2d2e30;
+  --color-keep-border: #5f6368;
+  --color-keep-text: #e8eaed;
+  --color-keep-textSecondary: #9aa0a6;
+  --color-keep-hover: #303134;
+}
+
+body {
+  background-color: var(--color-keep-bg);
+  color: var(--color-keep-text);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar styling for a cleaner look */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-keep-bg); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-keep-border); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-keep-textSecondary); 
+}
+
+/* Tiptap Editor Styles */
+.ProseMirror {
+  outline: none;
+  min-height: 100px; /* Minimum height for the body */
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--color-keep-textSecondary);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Syntax Highlighting overrides for lowlight/highlight.js */
+pre {
+  background: #0d1117;
+  border-radius: 0.5rem;
+  color: #c9d1d9;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 0.75rem 1rem;
+}
+
+code {
+  background: none;
+  color: inherit;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #8b949e;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #ff7b72;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #ff7b72;
+}
+
+.hljs-literal {
+  color: #79c0ff;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string {
+  color: #a5d6ff;
+}
+
+.hljs-class .hljs-title,
+.hljs-type {
+  color: #d2a8ff;
+}
