@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
@@ -7,6 +7,7 @@ import Underline from '@tiptap/extension-underline';
 import { all, createLowlight } from 'lowlight';
 import { FaTrash, FaArchive, FaTrashRestore } from 'react-icons/fa';
 import { MdPushPin, MdOutlinePushPin } from 'react-icons/md';
+import CodeBlockView from './CodeBlockView';
 
 const lowlight = createLowlight(all);
 
@@ -21,7 +22,13 @@ const NoteCard: React.FC<NoteCardProps> = ({ note, onUpdate, onDelete, onEdit })
     const editor = useEditor({
         extensions: [
             StarterKit.configure({ codeBlock: false }),
-            CodeBlockLowlight.configure({ lowlight }),
+            CodeBlockLowlight.extend({
+                addNodeView() {
+                    return ReactNodeViewRenderer(CodeBlockView);
+                },
+            }).configure({
+                lowlight,
+            }),
             Underline,
             Image,
         ],

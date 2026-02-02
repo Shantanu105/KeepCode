@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Image from '@tiptap/extension-image';
@@ -9,6 +9,7 @@ import { all, createLowlight } from 'lowlight';
 import { FaImage, FaCode, FaBold, FaItalic, FaUnderline } from 'react-icons/fa';
 import { MdPushPin, MdOutlinePushPin } from 'react-icons/md';
 import axios from 'axios';
+import CodeBlockView from './CodeBlockView';
 
 const lowlight = createLowlight(all);
 
@@ -28,7 +29,11 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ onSave }) => {
             StarterKit.configure({
                 codeBlock: false, 
             }),
-            CodeBlockLowlight.configure({
+            CodeBlockLowlight.extend({
+                addNodeView() {
+                    return ReactNodeViewRenderer(CodeBlockView);
+                },
+            }).configure({
                 lowlight,
             }),
             Underline,

@@ -11,17 +11,23 @@
   --color-keep-text: var(--color-keep-text);
   --color-keep-textSecondary: var(--color-keep-textSecondary);
   --color-keep-hover: var(--color-keep-hover);
-  --color-keep-yellow: #fbbc04;
+  --color-keep-yellow: var(--color-keep-yellow);
+  --color-keep-active-nav-bg: var(--color-keep-active-nav-bg);
+  --color-keep-active-nav-text: var(--color-keep-active-nav-text);
 }
 
 :root {
-  /* Dark Mode (Default) */
+  /* Dark Mode (Default) - Google Keep Dark */
   --color-keep-bg: #202124;
   --color-keep-card: #202124;
   --color-keep-border: #5f6368;
   --color-keep-text: #e8eaed;
   --color-keep-textSecondary: #9aa0a6;
   --color-keep-hover: #28292c;
+  --color-keep-yellow: #fbbc04;
+  
+  --color-keep-active-nav-bg: #41331c;
+  --color-keep-active-nav-text: #e8eaed;
   
   /* Code Block Background */
   --code-bg: #1e1e1e;
@@ -32,12 +38,16 @@
   /* Light Mode - Google Keep Exact Colors */
   --color-keep-bg: #ffffff;
   --color-keep-card: #ffffff;
-  --color-keep-border: #e0e0e0;
+  --color-keep-border: #e0e0e0; /* Subtle border for light mode cards */
   --color-keep-text: #202124;
   --color-keep-textSecondary: #5f6368;
   --color-keep-hover: #f1f3f4;
+  --color-keep-yellow: #fbbc04;
+
+  --color-keep-active-nav-bg: #feefc3; /* Keep's Light Yellow for active tab */
+  --color-keep-active-nav-text: #202124;
   
-  --code-bg: #f6f8fa;
+  --code-bg: #1e1e1e; /* Keep code blocks dark for contrast even in light mode, or use #f6f8fa */
   --code-border: #e1e4e8;
 }
 
@@ -47,7 +57,7 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Scrollbar styling */
@@ -95,19 +105,15 @@ body {
 
 /* Vibrant VS Code Style Syntax Highlighting */
 pre {
-  background: var(--code-bg);
+  background: #1e1e1e !important; /* Force Dark Background */
   border-radius: 0.5rem;
-  color: #d4d4d4; /* Default dark text */
+  color: #d4d4d4; 
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  border: 1px solid var(--code-border);
+  border: 1px solid #333;
   overflow-x: auto;
-}
-
-/* Light Mode Code Overrides */
-:root.light pre {
-    color: #24292e;
+  position: relative;
 }
 
 code {
@@ -117,26 +123,24 @@ code {
   padding: 0;
 }
 
-/* Vibrant Highlighting Token Colors */
-.hljs-comment, .hljs-quote { color: #6a9955; font-style: italic; } /* Green comment */
-.hljs-doctag, .hljs-keyword, .hljs-formula { color: #c586c0; } /* Purple keyword */
-.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #569cd6; } /* Blue */
+/* VS Code Dark+ Theme Tokens (Exact Colors) */
+.hljs-comment, .hljs-quote { color: #6a9955; font-style: italic; } /* Green */
+.hljs-doctag, .hljs-keyword, .hljs-formula { color: #569cd6; } /* Blue (for public, class, void, etc) */
+.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #569cd6; } 
 .hljs-literal { color: #569cd6; }
 .hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: #ce9178; } /* Orange string */
-.hljs-class .hljs-title, .hljs-type { color: #4ec9b0; } /* Teal type */
-.hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #4fc1ff; } /* Light Blue */
-.hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #b5cea8; } /* Light Green */
+.hljs-class .hljs-title, .hljs-type { color: #4ec9b0; } /* Teal Class Names */
+.hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #9cdcfe; } /* Light Blue Variables */
+.hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #b5cea8; } /* Light Green Numbers */
 .hljs-attribute { color: #9cdcfe; }
-.hljs-function { color: #dcdcaa; } /* Yellow function */
+.hljs-function { color: #dcdcaa; } /* Yellow Function Calls */
+.hljs-title.class_ { color: #4ec9b0; }
+.hljs-title.function_ { color: #dcdcaa; }
+.hljs-keyword { color: #c586c0; } /* Purple (control flow: if, return, while) */
+.hljs-operator { color: #d4d4d4; }
+.hljs-punctuation { color: #d4d4d4; }
 
-/* Adjusting for Light Mode (If needed to ensure contrast, but VS Code colors usually work ok on dark bg)
-   If light mode is active, we might want a light theme for code, but often devs prefer dark code blocks even in light apps.
-   Let's keep the dark code block aesthetic for now as it "pops" more, or invert if strictly requested.
-   User asked for "VS Code" style which is typically associated with Dark+.
-   I will keep the code block DARK even in LIGHT mode for that high contrast pop.
-*/
+/* Light Mode Overrides for UI, BUT KEEP CODE DARK */
 :root.light pre {
-    background: #1e1e1e; /* Force dark background for code blocks even in light mode */
-    color: #d4d4d4;
-    border-color: #333;
+    border-color: #e1e4e8;
 }
