@@ -23,11 +23,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(item.id)}
             className={`flex items-center pl-6 py-3 rounded-r-full transition-colors mr-2 mb-1 ${
                 isActive
-                ? 'bg-[#41331c] text-[#e8eaed]' // Active: Dark yellow tint text
+                ? 'bg-keep-active-nav-bg text-keep-active-nav-text' // Active: Uses theme colors
                 : 'text-keep-textSecondary hover:bg-keep-hover hover:text-keep-text'
             }`}
             >
-            <item.icon className={`text-xl ${isActive ? 'text-[#e8eaed]' : ''}`} />
+            <item.icon className={`text-xl ${isActive ? 'text-keep-active-nav-text' : ''}`} />
             <span className={`ml-5 text-sm font-medium hidden md:block tracking-wide ${isActive ? 'font-bold' : ''}`}>
                 {item.label}
             </span>

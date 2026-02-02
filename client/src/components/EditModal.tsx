@@ -68,8 +68,12 @@ const EditModal: React.FC<EditModalProps> = ({ note, onClose, onSave }) => {
         }
     };
 
+    const handleBackdropClick = () => {
+        handleSave();
+    };
+
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" onClick={onClose}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" onClick={handleBackdropClick}>
             <div 
                 className="bg-keep-card w-full max-w-2xl max-h-[90vh] rounded-lg shadow-2xl overflow-hidden flex flex-col border border-keep-border"
                 onClick={(e) => e.stopPropagation()}

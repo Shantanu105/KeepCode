@@ -25,14 +25,26 @@ const Header: React.FC<HeaderProps> = ({ onSearch, toggleSidebar, theme, toggleT
       </div>
 
       <div className="flex-1 max-w-3xl mx-auto">
-        <div className="bg-[#525355] bg-opacity-20 rounded-lg flex items-center px-4 py-3 focus-within:bg-white focus-within:shadow-md transition-all duration-200 group">
-            <button className="text-keep-textSecondary group-focus-within:text-gray-600 mr-4">
+        <div className={`rounded-lg flex items-center px-4 py-3 transition-all duration-200 group ${
+          theme === 'dark' 
+            ? 'bg-[#525355]/40 focus-within:bg-white focus-within:shadow-md' 
+            : 'bg-[#f1f3f4] focus-within:bg-white focus-within:shadow-md'
+        }`}>
+            <button className={`mr-4 transition-colors ${
+              theme === 'dark' 
+                ? 'text-keep-textSecondary group-focus-within:text-gray-600' 
+                : 'text-gray-500 group-focus-within:text-gray-600'
+            }`}>
                 <FaSearch size={18} />
             </button>
             <input 
                 type="text" 
                 placeholder="Search" 
-                className="bg-transparent border-none outline-none w-full text-keep-text placeholder-keep-textSecondary group-focus-within:text-black font-medium text-base"
+                className={`bg-transparent border-none outline-none w-full font-medium text-base placeholder-gray-500 ${
+                  theme === 'dark'
+                    ? 'text-keep-text focus:text-gray-900'
+                    : 'text-gray-700 focus:text-gray-900'
+                }`}
                 onChange={(e) => onSearch(e.target.value)}
             />
         </div>

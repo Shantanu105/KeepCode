@@ -38,16 +38,16 @@
   /* Light Mode - Google Keep Exact Colors */
   --color-keep-bg: #ffffff;
   --color-keep-card: #ffffff;
-  --color-keep-border: #e0e0e0; /* Subtle border for light mode cards */
+  --color-keep-border: #e0e0e0;
   --color-keep-text: #202124;
   --color-keep-textSecondary: #5f6368;
   --color-keep-hover: #f1f3f4;
   --color-keep-yellow: #fbbc04;
 
-  --color-keep-active-nav-bg: #feefc3; /* Keep's Light Yellow for active tab */
+  --color-keep-active-nav-bg: #feefc3;
   --color-keep-active-nav-text: #202124;
   
-  --code-bg: #1e1e1e; /* Keep code blocks dark for contrast even in light mode, or use #f6f8fa */
+  --code-bg: #1e1e1e;
   --code-border: #e1e4e8;
 }
 
@@ -91,6 +91,50 @@ body {
   font-weight: 500;
 }
 
+/* Heading Styles for Tiptap Editor */
+.ProseMirror h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+  color: var(--color-keep-text);
+}
+
+.ProseMirror h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 0.875rem;
+  margin-bottom: 0.625rem;
+  line-height: 1.35;
+  color: var(--color-keep-text);
+}
+
+.ProseMirror h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  color: var(--color-keep-text);
+}
+
+.ProseMirror p {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+/* Ensure heading buttons work by having proper cursor/selection */
+.ProseMirror h1.is-empty::before,
+.ProseMirror h2.is-empty::before,
+.ProseMirror h3.is-empty::before {
+  color: var(--color-keep-textSecondary);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
 /* Note Card specific styles */
 .note-card {
     border: 1px solid var(--color-keep-border);
@@ -103,11 +147,14 @@ body {
     box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
 }
 
-/* Vibrant VS Code Style Syntax Highlighting */
+/* ==========================================
+   CODE BLOCK STYLING
+   ========================================== */
+
 pre {
-  background: #1e1e1e !important; /* Force Dark Background */
+  background: #1e1e1e !important;
   border-radius: 0.5rem;
-  color: #d4d4d4; 
+  color: #d4d4d4;
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   padding: 0.75rem 1rem;
   margin: 0.5rem 0;
@@ -116,31 +163,166 @@ pre {
   position: relative;
 }
 
-code {
+pre code {
   background: none;
-  color: inherit;
+  color: #d4d4d4;
   font-size: 0.85rem;
   padding: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  line-height: 1.6;
 }
 
-/* VS Code Dark+ Theme Tokens (Exact Colors) */
-.hljs-comment, .hljs-quote { color: #6a9955; font-style: italic; } /* Green */
-.hljs-doctag, .hljs-keyword, .hljs-formula { color: #569cd6; } /* Blue (for public, class, void, etc) */
-.hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst { color: #569cd6; } 
-.hljs-literal { color: #569cd6; }
-.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: #ce9178; } /* Orange string */
-.hljs-class .hljs-title, .hljs-type { color: #4ec9b0; } /* Teal Class Names */
-.hljs-variable, .hljs-template-variable, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class, .hljs-regexp, .hljs-deletion { color: #9cdcfe; } /* Light Blue Variables */
-.hljs-number, .hljs-built_in, .hljs-builtin-name, .hljs-literal, .hljs-type, .hljs-params, .hljs-meta, .hljs-link { color: #b5cea8; } /* Light Green Numbers */
-.hljs-attribute { color: #9cdcfe; }
-.hljs-function { color: #dcdcaa; } /* Yellow Function Calls */
-.hljs-title.class_ { color: #4ec9b0; }
-.hljs-title.function_ { color: #dcdcaa; }
-.hljs-keyword { color: #c586c0; } /* Purple (control flow: if, return, while) */
-.hljs-operator { color: #d4d4d4; }
-.hljs-punctuation { color: #d4d4d4; }
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #d4d4d4;
+  background: #1e1e1e;
+}
 
-/* Light Mode Overrides for UI, BUT KEEP CODE DARK */
+/* ==========================================
+   COMMENTS - HIGHEST PRIORITY
+   Must be greyish/muted, never colored
+   ========================================== */
+
+/* Comments get the MOST specific selectors to override any other token */
+.hljs-comment,
+.hljs .hljs-comment,
+span.hljs-comment,
+.hljs > span.hljs-comment,
+.hljs span.hljs-comment,
+pre .hljs-comment,
+pre code .hljs-comment,
+.hljs-string.hljs-comment,
+.hljs-keyword.hljs-comment,
+.hljs-variable.hljs-comment,
+.hljs-function.hljs-comment,
+.hljs-class.hljs-comment,
+.hljs-title.hljs-comment,
+.hljs-type.hljs-comment,
+.hljs-number.hljs-comment,
+.hljs-operator.hljs-comment,
+.hljs-punctuation.hljs-comment,
+.hljs-property.hljs-comment,
+.hljs-attribute.hljs-comment,
+.hljs-tag.hljs-comment,
+.hljs-name.hljs-comment,
+.hljs-built_in.hljs-comment,
+.hljs-literal.hljs-comment,
+.hljs-params.hljs-comment,
+.hljs-regexp.hljs-comment,
+.hljs-selector-id.hljs-comment,
+.hljs-selector-class.hljs-comment,
+.hljs-section.hljs-comment,
+.hljs-meta.hljs-comment,
+.hljs-meta-keyword.hljs-comment,
+.hljs-meta-string.hljs-comment,
+.hljs-subst.hljs-comment,
+.hljs-formula.hljs-comment,
+.hljs-bullet.hljs-comment,
+.hljs-code.hljs-comment,
+.hljs-emphasis.hljs-comment,
+.hljs-strong.hljs-comment,
+.hljs-link.hljs-comment,
+.hljs-quote.hljs-comment,
+.hljs-template-tag.hljs-comment,
+.hljs-template-variable.hljs-comment,
+.hljs-addition.hljs-comment,
+.hljs-deletion.hljs-comment {
+  color: #6a9955 !important;
+  font-style: italic !important;
+  opacity: 0.6 !important;
+  text-shadow: none !important;
+  font-weight: normal !important;
+}
+
+/* Ensure any nested spans within comments stay grey */
+.hljs-comment span,
+.hljs-comment span span,
+.hljs-comment .hljs-keyword,
+.hljs-comment .hljs-string,
+.hljs-comment .hljs-variable,
+.hljs-comment .hljs-function,
+.hljs-comment .hljs-title,
+.hljs-comment .hljs-type,
+.hljs-comment .hljs-number,
+.hljs-comment .hljs-built_in,
+.hljs-comment .hljs-literal,
+.hljs-comment .hljs-operator,
+.hljs-comment .hljs-punctuation,
+.hljs-comment .hljs-property,
+.hljs-comment .hljs-attribute,
+.hljs-comment .hljs-tag,
+.hljs-comment .hljs-name {
+  color: #6a9955 !important;
+  font-style: italic !important;
+  opacity: 0.6 !important;
+}
+
+/* ==========================================
+   OTHER TOKENS - Simple coloring
+   ========================================== */
+
+/* Keywords */
+.hljs-keyword {
+  color: #c586c0;
+}
+
+/* Strings */
+.hljs-string {
+  color: #ce9178;
+}
+
+/* Numbers */
+.hljs-number {
+  color: #b5cea8;
+}
+
+/* Functions */
+.hljs-function,
+.hljs-title.function_ {
+  color: #dcdcaa;
+}
+
+/* Classes */
+.hljs-class,
+.hljs-title.class_ {
+  color: #4ec9b0;
+}
+
+/* Variables */
+.hljs-variable {
+  color: #9cdcfe;
+}
+
+/* Built-ins */
+.hljs-built_in {
+  color: #4ec9b0;
+}
+
+/* Types */
+.hljs-type {
+  color: #4ec9b0;
+}
+
+/* Default */
+.hljs-operator,
+.hljs-punctuation {
+  color: #d4d4d4;
+}
+
+/* ==========================================
+   CODE BLOCK WRAPPER
+   ========================================== */
+.code-block-wrapper {
+  position: relative;
+}
+
+.code-block-wrapper pre {
+  background: #1e1e1e !important;
+}
+
+/* Light Mode - keep code blocks dark */
 :root.light pre {
-    border-color: #e1e4e8;
+  border-color: #333;
 }

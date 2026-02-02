@@ -25,7 +25,7 @@ const CodeBlockView: React.FC<NodeViewProps> = ({ node }) => {
           {copied ? <FaCheck size={12} className="text-green-400" /> : <FaCopy size={12} className="text-gray-300" />}
       </button>
       
-      <pre>
+      <pre className="hljs">
         {/* @ts-ignore */}
         <NodeViewContent as="code" />
       </pre>
