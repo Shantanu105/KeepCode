@@ -1,7 +1,7 @@
 # KeepCode - Project Description
 
 ## Overview
-KeepCode is a Google Keep clone tailored for developers, emphasizing code syntax highlighting and a clean, masonry-style layout. It provides a familiar note-taking experience with added capabilities for storing and viewing code snippets effectively.
+KeepCode is a Google Keep alike note taking app tailored for developers, emphasizing code syntax highlighting and a clean, masonry-style layout. It provides a familiar note-taking experience with added capabilities for storing and viewing code snippets effectively.
 
 ## Tech Stack
 

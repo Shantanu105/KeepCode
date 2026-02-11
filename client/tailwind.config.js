@@ -19,6 +19,7 @@ export default {
       },
       fontFamily: {
         sans: ['Roboto', 'Arial', 'sans-serif'],
+        lexend: ['Lexend', 'sans-serif'],
       }
     },
   },

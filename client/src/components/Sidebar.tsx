@@ -14,7 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   ] as const;
 
   return (
-    <aside className="w-20 md:w-72 h-screen fixed left-0 top-16 pt-2 flex flex-col bg-keep-bg">
+    <aside className="w-20 md:w-72 h-screen fixed left-0 top-20 pt-2 flex flex-col bg-keep-bg">
       {menuItems.map((item) => {
           const isActive = activeTab === item.id;
           return (

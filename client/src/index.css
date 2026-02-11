@@ -259,6 +259,18 @@ pre code .hljs-comment,
   opacity: 0.6 !important;
 }
 
+/* ULTRA AGGRESSIVE: Target ANY element inside comments */
+.hljs-comment *,
+.hljs-comment * *,
+.hljs-comment * * *,
+pre .hljs-comment *,
+code .hljs-comment *,
+.hljs-comment [class*="hljs-"] {
+  color: #6a9955 !important;
+  font-style: italic !important;
+  opacity: 1 !important;
+}
+
 /* ==========================================
    OTHER TOKENS - Simple coloring
    ========================================== */

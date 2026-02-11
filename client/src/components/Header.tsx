@@ -10,17 +10,15 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onSearch, toggleSidebar, theme, toggleTheme }) => {
   return (
-    <header className="h-16 fixed top-0 left-0 right-0 bg-keep-bg border-b border-keep-border flex items-center px-4 z-50 shadow-sm transition-colors duration-300">
+    <header className="h-20 fixed top-0 left-0 right-0 bg-keep-bg border-b border-keep-border flex items-center px-4 z-50 shadow-sm transition-colors duration-300">
       <div className="flex items-center w-72">
         <button onClick={toggleSidebar} className="p-3 rounded-full hover:bg-keep-hover text-keep-textSecondary mr-2 transition-colors">
           <FaBars size={20} />
         </button>
         <div className="flex items-center cursor-pointer">
             {/* Logo */}
-            <div className="w-10 h-10 bg-keep-yellow rounded-lg flex items-center justify-center font-bold text-[#202124] mr-2 shadow-sm text-xl">
-                K
-            </div>
-            <span className="text-xl text-keep-text font-medium tracking-tight">KeepCode</span>
+            <img src="/icon.png" alt="KeepCode Logo" className="h-12 w-auto mr-2" />
+            <span className="text-xl text-keep-text font-lexend font-medium tracking-tight">KeepCode</span>
         </div>
       </div>
 
